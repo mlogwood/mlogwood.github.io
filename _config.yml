@@ -1,5 +1,5 @@
 title: Marilyn L. Logwood
-description: A template for your AOS C111/204 project site.
+description: Machine learning analysis of the Dow Jones Index
 logo: /assets/IMG/template_logo.png
 show_downloads: true
-theme: jekyll-theme-modernist
+theme: minima
