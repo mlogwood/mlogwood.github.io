@@ -1,37 +1,45 @@
-# Marilyn's Dow Jones Index Project
+# My Project  
+**Analyzing the Relationship Between Volume and Volatility in Selected Dow Jones Stocks**  
 
-## **Introduction**  
-This project explores the application of machine learning to investigate trends in stock price data using the Dow Jones Index dataset. While stock price forecasting is challenging due to the stochastic nature of markets, this analysis aims to uncover patterns and relationships within the data.  
+## Introduction  
+Stock market analysis often involves highly stochastic data, making accurate forecasting challenging. Instead of focusing solely on predictions, this project investigates the relationship between trading volume and volatility for selected Dow Jones stocks: `BAC`, `INTC`, `PG`, `GE`, `MMM`, `XOM`, `BA`, `IBM`, and `PFE`.  
 
-Two approaches are considered:  
-1. Forecasting stock price trends using autoregression models to capture temporal dependencies.  
-2. Investigating feature relationships, such as the connection between trading volume and volatility.  
+By normalizing stock price data as a percentage change and applying statistical methods, this study identifies whether a significant correlation exists between volume and volatility. Understanding this relationship could benefit traders and investors by providing insights into market behavior.  
 
-To ensure meaningful comparisons across stocks, price data is normalized by expressing changes as percentage differences.
+## Data  
+The dataset used in this project is the Dow Jones Index data, which includes daily stock data for multiple companies.  
+### Data Overview:
+- **Features:**  
+  - `date`: The trading date.  
+  - `close`: The closing price of the stock.  
+  - `volume`: The trading volume in shares.  
+  - `stock`: The ticker symbol for the stock.  
 
----
+### Preprocessing Steps:  
+1. Converted `date` to datetime format for proper time-series handling.  
+2. Removed invalid or missing data entries for cleaner analysis.  
+3. Calculated the **percentage change** in daily closing prices to normalize stock price data.  
+4. Computed the **5-day rolling standard deviation** of percentage change to estimate volatility.  
+5. Filtered data to include only the selected stocks (`BAC`, `INTC`, `PG`, `GE`, `MMM`, `XOM`, `BA`, `IBM`, and `PFE`).  
 
-## **Data**  
-The dataset is the Dow Jones Index dataset from the UCI Machine Learning Repository, which contains weekly stock data from 2011. It includes attributes like opening, closing, high, and low prices, as well as trading volumes. The data is normalized to percentage changes for easier analysis across different stock values.  
+### Visualization:  
+The scatter plot below shows the relationship between trading volume and volatility for the selected stocks.  
 
-### **Data Visualization**  
-Below is a plot of the weekly percentage changes in closing prices for stock 'AA':
+**Figure 1:** Relationship Between Volume and Volatility (Selected Stocks).  
 
-![Figure 1: Weekly Percentage Change in Closing Price of Stock 'AA'](/assets/figures/stock_aa_pct_change.png)
+![Figure 1](path_to_figure1.png)  
 
----
+## Modelling  
+This project uses statistical correlation analysis to examine the relationship between trading volume and volatility.  
 
-## **Modeling**  
-Initially, an autoregression approach was applied to predict stock price trends. This model uses historical data to forecast future prices, leveraging patterns in the time series. If forecasting proves unreliable, we pivot to examining feature relationships, such as the correlation between volume and price volatility, to uncover insights at the current time step.
+- **Correlation Analysis:**  
+  Pearson correlation was used to quantify the strength and direction of the relationship.  
 
-Sample code snippet for autoregression:
+- **Regression Analysis:**  
+  A regression plot was generated to visualize the trend between volume and volatility.  
+
+### Code Example:  
 ```python
-from statsmodels.tsa.ar_model import AutoReg
-from sklearn.metrics import mean_squared_error
-
-# Example of autoregression
-model = AutoReg(train_data, lags=5)
-model_fitted = model.fit()
-predictions = model_fitted.predict(start=len(train_data), end=len(train_data)+len(test_data)-1)
-error = mean_squared_error(test_data, predictions)
-print(f"Mean Squared Error: {error}")
+correlation, p_value = pearsonr(dow_data['volume'], dow_data['volatility'])
+print(f"Pearson Correlation Coefficient: {correlation:.3f}")
+print(f"P-value: {p_value:.3e}")
