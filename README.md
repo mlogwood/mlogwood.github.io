@@ -4,7 +4,7 @@
 ## Introduction  
 In financial markets, understanding the dynamics between trading volume and volatility is crucial for traders and investors. Trading volume refers to the total number of shares exchanged during a specific period, while volatility measures the extent of price fluctuations in a stock over time. These two factors are often interconnected—when market uncertainty rises, trading activity typically spikes, which in turn can lead to greater price swings. As such, recognizing a relationship between volume and volatility can offer valuable insights into market sentiment, potentially helping market participants anticipate future price movements and trends. This project focuses on examining the correlation between trading volume and volatility for a selection of Dow Jones Industrial Average (DJIA) stocks, aiming to quantify and better understand how these two variables interact.
 
-To explore this relationship, Pearson correlation analysis is applied, a statistical method used to measure the strength and direction of the linear relationship between two variables. The Pearson correlation coefficient (r) ranges from -1 to +1, where a value closer to +1 indicates a strong positive correlation, -1 suggests a strong negative correlation, and 0 implies no linear relationship. By applying this method to the daily trading volume and volatility data of selected DJIA stocks, this project investigates whether an increase in trading volume corresponds to an increase in price volatility. A significant positive correlation could suggest that higher trading volumes are indicative of heightened market uncertainty, while a weak or no correlation would challenge this assumption. Understanding the results of this analysis could help investors recognize early signs of potential market instability and adjust their strategies accordingly.
+To explore this relationship, Pearson correlation analysis is applied, a statistical method used to measure the strength and direction of the linear relationship between two variables. The Pearson correlation coefficient $r$ ranges from -1 to +1, where a value closer to +1 indicates a strong positive correlation, -1 suggests a strong negative correlation, and 0 implies no linear relationship. By applying this method to the daily trading volume and volatility data of selected DJIA stocks, this project investigates whether an increase in trading volume corresponds to an increase in price volatility. A significant positive correlation could suggest that higher trading volumes are indicative of heightened market uncertainty, while a weak or no correlation would challenge this assumption. Understanding the results of this analysis could help investors recognize early signs of potential market instability and adjust their strategies accordingly.
 
 ## Data  
 The dataset used in this project is the Dow Jones Index data, which includes daily stock data for multiple companies.  
@@ -14,12 +14,12 @@ The dataset used in this project is the Dow Jones Index data, which includes dai
   - `date`: The trading date.  
   - `close`: The closing price of the stock.  
   - `volume`: The trading volume in shares.  
-  - `stock`: The ticker symbol for the stock.  
+  - `stock`: The ticker symbol for the stock.
+  -  `pct_change`: The percentage change in the stock price from the previous day. 
 
 ### Preprocessing Steps:  
 1. Converted `date` to datetime format for proper time-series handling.  
-2. Removed invalid or missing data entries for cleaner analysis.  
-3. Calculated the **percentage change** in daily closing prices to normalize stock price data.  
+2. Removed invalid or missing data entries for cleaner analysis.   
 4. Computed the **5-day rolling standard deviation** of percentage change to estimate volatility.  
 5. Filtered data to include only the selected stocks (`BAC`, `INTC`, `PG`, `GE`, `MMM`, `XOM`, `BA`, `IBM`, and `PFE`).  
 
@@ -33,19 +33,18 @@ The scatter plot below shows the relationship between trading volume and volatil
 ## Modeling  
 In this project, the relationship between trading volume and volatility was analyzed using **Pearson correlation analysis**. Pearson's correlation coefficient is a widely-used statistic to measure the strength and direction of the linear relationship between two continuous variables. The formula for Pearson's correlation is given by:
 
-\[
-r = \frac{n \sum{xy} - \sum{x}\sum{y}}{\sqrt{(n \sum{x^2} - (\sum{x})^2)(n \sum{y^2} - (\sum{y})^2)}}
-\]
+$\displaystyle r = \frac{n \sum{xy} - \sum{x}\sum{y}}{\sqrt{(n \sum{x^2} - (\sum{x})^2)(n \sum{y^2} - (\sum{y})^2)}}$
+
 
 Where:
-- \(r\) is the Pearson correlation coefficient,
-- \(x\) and \(y\) are the individual sample points for volume and volatility,
-- \(n\) is the number of data points.
+- $r$ is the Pearson correlation coefficient.
+- $x$ and $y$ are the two variables being compared (in this case, volume and volatility).
+- $n$ is the number of data points.
 
-The value of \(r\) can range from -1 to 1:
-- \(r = 1\) indicates a perfect positive linear correlation (as one variable increases, the other increases),
-- \(r = -1\) indicates a perfect negative linear correlation (as one variable increases, the other decreases),
-- \(r = 0\) suggests no linear correlation between the variables.
+The Pearson correlation coefficient $r$ ranges from -1 to 1:
+- A value close to 1 indicates a strong positive linear relationship.
+- A value close to -1 indicates a strong negative linear relationship.
+- A value near 0 suggests no linear relationship.
 
 A positive correlation between trading volume and volatility would suggest that as market activity increases (reflected in volume), the price fluctuations (volatility) tend to rise as well. A negative correlation would indicate that higher trading volumes correspond to lower volatility. In this analysis, a positive correlation is expected based on the general behavior of stock markets during periods of high uncertainty.
 
@@ -67,15 +66,15 @@ print(f"P-value: {p_value:.3e}")
 ## Results  
 After conducting the Pearson correlation analysis and regression, we obtained the following results:
 
-- **Pearson Correlation Coefficient**: r = 0.291
-- **P-value**: p = 1.895e-04
+- **Pearson Correlation Coefficient**: r = 0.303
+- **P-value**: p = 6.544e-05
 
-Interpretation of Results:
-The results suggest a moderate, positive correlation between trading volume and volatility for the selected stocks. A correlation coefficient of 0.291 indicates that, in general, higher trading volumes tend to correspond with higher volatility, although the relationship is not perfect.
+## Interpretation of Results:
+The results suggest a moderate, positive correlation between trading volume and volatility for the selected stocks. A correlation coefficient of 0.303 indicates that, in general, higher trading volumes tend to correspond with higher volatility, although the relationship is not perfect.
 
-The p-value of 1.895e-04 is well below the commonly used threshold of 0.05, which indicates that the correlation is statistically significant. This means that the observed relationship between volume and volatility is unlikely to have occurred by chance and can be considered a real pattern in the data.
+The p-value of 6.544e-05 is well below the commonly used threshold of 0.05, which indicates that the correlation is statistically significant. This means that the observed relationship between volume and volatility is unlikely to have occurred by chance and can be considered a real pattern in the data.
 
-##Visualizing the Data:
+## Visualizing the Data:
 In **Figure 2**, a regression analysis of volume vs. volatility is presented, where the relationship is captured by a regression line that helps visualize the trend.
 
 **Figure 2:** Regression Analysis: Volume vs. Volatility.
@@ -104,6 +103,12 @@ This analysis demonstrates that there is a statistically significant positive co
 - **External Factors**: Investigate how external events (e.g., earnings reports, geopolitical news) influence volume and volatility, and incorporate these factors into the analysis to improve the model's accuracy and predictive power.
 - **Higher Frequency Data**: Consider using higher-frequency data (e.g., minute-level) to explore intraday patterns in trading volume and volatility. This could reveal short-term market behavior that may be missed with daily data.
 
+### References
+- Brown, Michael. "Dow Jones Index." UCI Machine Learning Repository, 2013, https://doi.org/10.24432/C5788V.
+- Investopedia. (2020). "Pearson Correlation." Retrieved from https://www.investopedia.com/terms/p/pearson-correlation-coefficient.asp
+- Jones, S. (2020). "Understanding Stock Volatility and Volume." Journal of Finance and Economics.
+- Pearson, K. (1896). "Mathematical contributions to the theory of evolution: On the correlation of characters." Philosophical Transactions of the Royal Society of London.
+
 ---
 
-**By Marilyn Logwood**  
+
