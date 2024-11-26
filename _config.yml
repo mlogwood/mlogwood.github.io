@@ -2,4 +2,4 @@ title: Marilyn L. Logwood
 description: Machine learning analysis of the Relationship Between Volume and Volatility in Selected Dow Jones Stocks
 logo: /assets/IMG/template_logo.png
 show_downloads: true
-theme: minima
+theme: jekyll-theme-modernist
