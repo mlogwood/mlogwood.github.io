@@ -2,26 +2,30 @@
 **Analyzing the Relationship Between Volume and Volatility in Selected Dow Jones Stocks**  
 
 ## Introduction  
-In financial markets, understanding the dynamics between trading volume and volatility is crucial for traders and investors. Trading volume refers to the total number of shares exchanged during a specific period, while volatility measures the extent of price fluctuations in a stock over time. These two factors are often interconnected—when market uncertainty rises, trading activity typically spikes, which in turn can lead to greater price swings. As such, recognizing a relationship between volume and volatility can offer valuable insights into market sentiment, potentially helping market participants anticipate future price movements and trends. This project focuses on examining the correlation between trading volume and volatility for a selection of Dow Jones Industrial Average (DJIA) stocks, aiming to quantify and better understand how these two variables interact.
 
-To explore this relationship, Pearson correlation analysis is applied, a statistical method used to measure the strength and direction of the linear relationship between two variables. The Pearson correlation coefficient $r$ ranges from -1 to +1, where a value closer to +1 indicates a strong positive correlation, -1 suggests a strong negative correlation, and 0 implies no linear relationship. By applying this method to the daily trading volume and volatility data of selected DJIA stocks, this project investigates whether an increase in trading volume corresponds to an increase in price volatility. A significant positive correlation could suggest that higher trading volumes are indicative of heightened market uncertainty, while a weak or no correlation would challenge this assumption. Understanding the results of this analysis could help investors recognize early signs of potential market instability and adjust their strategies accordingly.
+In financial markets, understanding the dynamics between trading volume and volatility is crucial for traders and investors. Trading volume refers to the total number of shares exchanged during a specific period, while volatility measures the extent of price fluctuations in a stock over time. These two factors are often interconnected—when market uncertainty rises, trading activity typically spikes, which in turn can lead to greater price swings. As such, recognizing a relationship between volume and volatility can offer valuable insights into market sentiment, potentially helping market participants anticipate future price movements and trends.
+
+Traditional statistical methods like Pearson correlation analysis have been used to explore these relationships. However, in recent years, machine learning techniques have gained prominence for making predictions based on historical data. Machine learning models, such as regression models and neural networks, can be trained to recognize complex patterns in large datasets, providing more accurate predictions of market behavior. These approaches allow analysts to incorporate a broader set of features beyond simple volume and volatility, including market sentiment and macroeconomic indicators, to forecast stock price movements. 
+
+This project explores the correlation between trading volume and volatility for a selection of Dow Jones Industrial Average (DJIA) stocks using traditional Pearson correlation analysis, but also highlights the potential for machine learning to enhance forecasting accuracy in the future. By examining the historical relationship between volume and volatility, we aim to uncover insights that could aid investors and traders in anticipating market trends and adjusting their strategies accordingly.
 
 ## Data  
+
 The dataset used in this project is the Dow Jones Index data, which includes daily stock data for multiple companies.  
 
-### Data Overview:
+### Data Overview:  
 - **Features:**  
   - `date`: The trading date.  
   - `close`: The closing price of the stock.  
   - `volume`: The trading volume in shares.  
   - `stock`: The ticker symbol for the stock.
-  -  `pct_change`: The percentage change in the stock price from the previous day. 
+  -  `pct_change`: The percentage change in the stock price from the previous day.  
 
 ### Preprocessing Steps:  
 1. Converted `date` to datetime format for proper time-series handling.  
-2. Removed invalid or missing data entries for cleaner analysis.   
-4. Computed the **5-day rolling standard deviation** of percentage change to estimate volatility.  
-5. Filtered data to include only the selected stocks (`BAC`, `INTC`, `PG`, `GE`, `MMM`, `XOM`, `BA`, `IBM`, and `PFE`).  
+2. Removed invalid or missing data entries for cleaner analysis.  
+3. Computed the **5-day rolling standard deviation** of percentage change to estimate volatility.  
+4. Filtered data to include only the selected stocks (`BAC`, `INTC`, `PG`, `GE`, `MMM`, `XOM`, `BA`, `IBM`, and `PFE`).  
 
 ### Visualization:  
 The scatter plot below shows the relationship between trading volume and volatility for the selected stocks.  
@@ -31,10 +35,10 @@ The scatter plot below shows the relationship between trading volume and volatil
 ![Figure 1](assets/IMG/DowFinalProjectFigure1.png)  
 
 ## Modeling  
+
 In this project, the relationship between trading volume and volatility was analyzed using **Pearson correlation analysis**. Pearson's correlation coefficient is a widely-used statistic to measure the strength and direction of the linear relationship between two continuous variables. The formula for Pearson's correlation is given by:
 
 $\displaystyle r = \frac{n \sum{xy} - \sum{x}\sum{y}}{\sqrt{(n \sum{x^2} - (\sum{x})^2)(n \sum{y^2} - (\sum{y})^2)}}$
-
 
 Where:
 - $r$ is the Pearson correlation coefficient.
@@ -62,6 +66,60 @@ correlation, p_value = pearsonr(dow_data['volume'], dow_data['volatility'])
 print(f"Pearson Correlation Coefficient: {correlation:.3f}")
 print(f"P-value: {p_value:.3e}")
 ```
+## Machine Learning Model: Random Forest Regressor
+To enhance the analysis, a machine learning model was applied to predict volatility based on trading volume using a **Random Forest Regressor**. Random Forests are an ensemble learning method that can capture non-linear relationships in data, making them well-suited for complex datasets like stock market data.
+
+We trained a Random Forest Regressor on the `volume` feature to predict volatility and evaluated the model's performance by comparing the predicted volatility to the actual observed values.
+
+**Python Code for Random Forest Regressor:**
+```python
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.metrics import mean_squared_error
+import matplotlib.pyplot as plt
+
+# Prepare the data for machine learning
+X = dow_data['volume'].values.reshape(-1, 1)  # Volume as input
+y = dow_data['volatility']  # Volatility as target
+
+# Initialize and train the model
+model = RandomForestRegressor(n_estimators=100, random_state=42)
+model.fit(X, y)
+
+# Predict volatility
+y_pred = model.predict(X)
+
+# Evaluate the model using Mean Squared Error
+mse = mean_squared_error(y, y_pred)
+print(f"Mean Squared Error of Random Forest model: {mse:.3f}")
+
+# Visualize the prediction vs actual values
+plt.figure(figsize=(10, 6))
+plt.scatter(X, y, color='blue', label='Actual Volatility')
+plt.scatter(X, y_pred, color='orange', label='Predicted Volatility')
+plt.title('Random Forest: Predicted vs Actual Volatility')
+plt.xlabel('Volume')
+plt.ylabel('Volatility')
+plt.legend()
+plt.show()
+```
+In this code:
+
+We use the `volume` as the input feature and the `volatility` as the target variable.
+The model is trained using 100 decision trees (`n_estimators=100`), and we evaluate the model's performance using the **Mean Squared Error** (MSE).
+The predicted volatility values are compared to the actual values in the plot.
+
+**Figure 2**: Random Forest Regressor: Predicted vs Actual Volatility
+![Figure 2](assets/IMG/DowFinalProjectFigure2.png)
+
+## Comparison of Actual vs Predicted Volatility
+**Figure 3**: Comparison of Actual vs. Predicted Volatility
+![Figure 2](assets/IMG/DowFinalProjectFigure3.png)
+
+
+In **Figure 3**, we compare the actual volatility values against the predicted values from the Random Forest regression model. The blue dots represent the actual volatility for each data point, while the orange dots show the predicted volatility based on the trained machine learning model. This plot highlights how accurately the model predicts the volatility, with the predicted values closely matching the actual values for most data points.
+
+By visualizing the predicted values as points (instead of a line), we can better appreciate how the model performs across the entire dataset, with more consistent predictions for high-volume or high-volatility periods. This graph underscores the utility of machine learning techniques in improving forecasting accuracy, especially for complex relationships like volume and volatility.
+
 
 ## Results  
 After conducting the Pearson correlation analysis and regression, we obtained the following results:
@@ -74,17 +132,16 @@ The results suggest a moderate, positive correlation between trading volume and 
 
 The p-value of 6.544e-05 is well below the commonly used threshold of 0.05, which indicates that the correlation is statistically significant. This means that the observed relationship between volume and volatility is unlikely to have occurred by chance and can be considered a real pattern in the data.
 
-## Visualizing the Data:
-In **Figure 2**, a regression analysis of volume vs. volatility is presented, where the relationship is captured by a regression line that helps visualize the trend.
+In addition to the Pearson correlation analysis, the Random Forest Regressor model provides a more nuanced prediction of volatility, capturing non-linear patterns that traditional Pearson correlation could not identify.
 
-**Figure 2:** Regression Analysis: Volume vs. Volatility.
-![Figure 2](assets/IMG/DowFinalProjectFigure2.png)
 ## Discussion  
 The findings of this project align with established financial theory, which posits that higher trading activity often occurs during periods of market uncertainty or heightened risk, leading to increased price fluctuations or volatility. This relationship is significant for traders and investors, as it could potentially signal an opportunity to anticipate market movements based on trading volume spikes.
 
 ### Interpretation of Figure 2:
 The regression line in **Figure 2** illustrates the positive relationship between volume and volatility. The upward slope of the line reinforces the moderate positive correlation found in the statistical analysis. Outliers, which appear as points far from the regression line, may indicate abnormal market conditions or events such as earnings announcements or political news that can lead to sharp changes in both volume and volatility.
 
+### Interpretation of Figure 3:
+In **Figure 3**, the closeness of the predicted volatility points to the actual volatility values suggests that the machine learning model has successfully learned the relationship between volume and volatility. Despite the random forest's complexity, it accurately captures the relationship between the two variables.
 
 ### Limitations:
 - **Limited Sample Size**: The analysis focused on a subset of Dow Jones stocks, and not all stocks within the index were considered. A larger sample size could provide more robust insights.
@@ -92,16 +149,18 @@ The regression line in **Figure 2** illustrates the positive relationship betwee
 - **Data Granularity**: This project analyzes daily stock data. Higher-frequency data, such as minute-level data, might reveal different patterns and provide more actionable insights.
 
 ## Conclusion  
-This analysis demonstrates that there is a statistically significant positive correlation between trading volume and volatility for the selected Dow Jones stocks. This finding suggests that trading activity could serve as an indicator of heightened market uncertainty, with higher volume typically reflecting increased price fluctuations. These insights could be valuable for investors and traders looking to understand market behavior and adjust their strategies accordingly.
+This project demonstrates that there is a statistically significant positive relationship between trading volume and volatility in selected Dow Jones stocks, as evidenced by the Pearson correlation analysis. The Random Forest Regressor model further enhances the understanding of this relationship by providing accurate predictions of volatility based on trading volume. Machine learning techniques like this one can be used in the future to refine stock price forecasting models, incorporating a broader range of market data to improve accuracy.
 
 ### Key Findings:
 - There is a statistically significant positive correlation between trading volume and volatility for the selected Dow Jones stocks.
 - This relationship suggests that trading activity is a useful indicator of market uncertainty, as increased volume often occurs during periods of higher volatility.
 
 ## Future Work:
-- **Broader Analysis**: Extend the analysis to include all Dow Jones stocks or additional indices for more comprehensive insights. This would provide a better understanding of how volume and volatility interact across different sectors and economic cycles.
-- **External Factors**: Investigate how external events (e.g., earnings reports, geopolitical news) influence volume and volatility, and incorporate these factors into the analysis to improve the model's accuracy and predictive power.
-- **Higher Frequency Data**: Consider using higher-frequency data (e.g., minute-level) to explore intraday patterns in trading volume and volatility. This could reveal short-term market behavior that may be missed with daily data.
+In the future, this analysis could be expanded by:
+- Incorporating additional features such as market sentiment indicators, interest rates, and macroeconomic data.
+- Exploring other machine learning models, such as support vector machines (SVMs) and neural networks, to improve prediction accuracy.
+- Expanding the scope of the dataset to include more stocks from the DJIA or other stock indices.
+By integrating more sophisticated models and larger datasets, more accurate forecasting could be achieved, providing traders and investors with deeper insights into market behavior.
 
 ### References
 - Brown, Michael. "Dow Jones Index." UCI Machine Learning Repository, 2013, https://doi.org/10.24432/C5788V.
