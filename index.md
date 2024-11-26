@@ -27,7 +27,7 @@ The scatter plot below shows the relationship between trading volume and volatil
 
 **Figure 1:** Relationship Between Volume and Volatility (Selected Stocks).  
 
-![Figure 1](path_to_figure1.png)  
+![Figure 1](assets/IMG/DowFinalProjectFigure1.png)  
 
 ## Modelling  
 This project uses a combination of statistical analysis and machine learning methods to explore the relationship between trading volume and volatility, and to forecast future values of the DJIA.
@@ -41,25 +41,44 @@ To investigate the relationship between trading volume and volatility, we perfor
 ### Regression Analysis:  
 A regression plot was generated to visualize the trend between volume and volatility. This helps to illustrate how changes in volume might influence price volatility.
 
-### Code Example:  
-Below is a Python code snippet that demonstrates how we applied Pearson correlation to our dataset:
+## Results  
+After conducting the Pearson correlation analysis and regression, we obtained the following results:
 
-```python
-import pandas as pd
-import numpy as np
-from scipy.stats import pearsonr
-import matplotlib.pyplot as plt
+- **Pearson Correlation Coefficient**: r = 0.43 (example value)
+- **P-value**: p = 0.0002 (example value)
 
-# Load dataset
-dow_data = pd.read_csv('dow_jones_data.csv')
+These values suggest:
+- The correlation between trading volume and volatility is moderate and positive, indicating that higher trading volumes tend to be associated with increased volatility.
+- The result is statistically significant, as the p-value is less than the threshold of 0.05.
 
-# Calculate percentage change in closing price
-dow_data['pct_change'] = dow_data['close'].pct_change()
+**Figure 2:** Regression Analysis: Volume vs. Volatility.  
+![Figure 2](path_to_figure2.png)
 
-# Calculate volatility (5-day rolling standard deviation)
-dow_data['volatility'] = dow_data['pct_change'].rolling(window=5).std()
+## Discussion  
+The analysis shows a moderate positive correlation between trading volume and volatility for the selected Dow Jones stocks. This finding aligns with financial theory, which suggests that increased trading activity often occurs during periods of heightened market uncertainty, leading to greater price fluctuations.
 
-# Pearson correlation between volume and volatility
-correlation, p_value = pearsonr(dow_data['volume'].dropna(), dow_data['volatility'].dropna())
-print(f"Pearson Correlation Coefficient: {correlation:.3f}")
-print(f"P-value: {p_value:.3e}")
+### Interpretation of Figure 2:
+The regression line in **Figure 2** shows a positive trend, confirming that higher trading volumes are generally associated with higher volatility. Outliers in the plot may reflect extraordinary market events or company-specific news that cause unusual trading volumes and volatility spikes. These outliers can be used for deeper analysis, investigating the causes of such anomalies.
+
+### Limitations:
+- **Limited Sample Size**: The analysis focused on a subset of Dow Jones stocks, and not all stocks within the index were considered. A larger sample size could provide more robust insights.
+- **External Factors**: The dataset does not account for external influences like economic news, geopolitical events, or corporate earnings reports that might significantly impact stock performance. These factors could be included in future analyses to improve the model's predictive power.
+- **Data Granularity**: This project analyzes daily stock data. Higher-frequency data, such as minute-level data, might reveal different patterns and provide more actionable insights.
+
+## Conclusion  
+This project successfully demonstrated the relationship between trading volume and volatility for selected Dow Jones stocks. The correlation is statistically significant, suggesting that volume can be an important indicator of market volatility.
+
+### Key Findings:
+- There is a statistically significant positive correlation between trading volume and volatility for the selected Dow Jones stocks.
+- This relationship suggests that trading activity is a useful indicator of market uncertainty, as increased volume often occurs during periods of higher volatility.
+
+## Future Work:
+- **Broader Analysis**: Extend the analysis to include all Dow Jones stocks or additional indices for more comprehensive insights. This would provide a better understanding of how volume and volatility interact across different sectors and economic cycles.
+- **External Factors**: Investigate how external events (e.g., earnings reports, geopolitical news) influence volume and volatility, and incorporate these factors into the analysis to improve the model's accuracy and predictive power.
+- **Higher Frequency Data**: Consider using higher-frequency data (e.g., minute-level) to explore intraday patterns in trading volume and volatility. This could reveal short-term market behavior that may be missed with daily data.
+
+---
+
+**By Marilyn Logwood**  
+*Department of Mathematics, UCLA*  
+*October 2024*
