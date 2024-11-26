@@ -77,35 +77,24 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_squared_error
 import matplotlib.pyplot as plt
 
-# Prepare the data for machine learning
-X = dow_data['volume'].values.reshape(-1, 1)  # Volume as input
-y = dow_data['volatility']  # Volatility as target
+# Prepare data for machine learning model
+X = dow_data[['volume']]  # Features (volume)
+y = dow_data['volatility']  # Target variable (volatility)
 
-# Initialize and train the model
-model = RandomForestRegressor(n_estimators=100, random_state=42)
-model.fit(X, y)
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-# Predict volatility
-y_pred = model.predict(X)
+# Instantiate and train the Random Forest Regressor model
+rf_model = RandomForestRegressor(n_estimators=100, random_state=42)
+rf_model.fit(X_train, y_train)
 
-# Evaluate the model using Mean Squared Error
-mse = mean_squared_error(y, y_pred)
-print(f"Mean Squared Error of Random Forest model: {mse:.3f}")
-
-# Visualize the prediction vs actual values
-plt.figure(figsize=(10, 6))
-plt.scatter(X, y, color='blue', label='Actual Volatility')
-plt.scatter(X, y_pred, color='orange', label='Predicted Volatility')
-plt.title('Random Forest: Predicted vs Actual Volatility')
-plt.xlabel('Volume')
-plt.ylabel('Volatility')
-plt.legend()
-plt.show()
+# Predict on the test set
+y_pred = rf_model.predict(X_test)
 ```
 In this code:
 
 We use the `volume` as the input feature and the `volatility` as the target variable.
-The model is trained using 100 decision trees (`n_estimators=100`), and we evaluate the model's performance using the **Mean Squared Error** (MSE).
+The model is trained using 100 decision trees (`n_estimators=100`)
 The predicted volatility values are compared to the actual values in the plot.
 
 **Figure 2**: Random Forest Regressor: Predicted vs Actual Volatility
@@ -113,10 +102,14 @@ The predicted volatility values are compared to the actual values in the plot.
 
 ## Comparison of Actual vs Predicted Volatility
 **Figure 3**: Comparison of Actual vs. Predicted Volatility
-![Figure 2](assets/IMG/DowFinalProjectFigure3.png)
+![Figure 3](assets/IMG/DowFinalProjectFigure3.png)
 
 
-In **Figure 3**, we compare the actual volatility values against the predicted values from the Random Forest regression model. The blue dots represent the actual volatility for each data point, while the orange dots show the predicted volatility based on the trained machine learning model. This plot highlights how accurately the model predicts the volatility, with the predicted values closely matching the actual values for most data points.
+**Figure 3** illustrates the comparison between the actual volatility values (blue dots) and the predicted volatility values (red dots) derived from the Random Forest regression model. The blue line represents the line of best fit for the actual volatility data, while the red line shows the line of best fit for the predicted volatility values.
+
+This plot reveals how well the Random Forest model's predictions align with the actual volatility values. The red dots (predicted values) are generally close to the blue dots (actual values), and the corresponding lines of best fit exhibit similar trends, indicating that the model does a good job of capturing the overall relationship between trading volume and volatility.
+
+The addition of the lines of best fit enhances the comparison, making it easier to visualize how the predicted volatility behaves in relation to the actual volatility across the entire dataset. This graph demonstrates the effectiveness of using machine learning techniques, such as Random Forest regression, for predicting complex financial metrics like volatility, which is influenced by various market factors.
 
 By visualizing the predicted values as points (instead of a line), we can better appreciate how the model performs across the entire dataset, with more consistent predictions for high-volume or high-volatility periods. This graph underscores the utility of machine learning techniques in improving forecasting accuracy, especially for complex relationships like volume and volatility.
 
