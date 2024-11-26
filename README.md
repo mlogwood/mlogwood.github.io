@@ -52,7 +52,7 @@ These values suggest:
 - The result is statistically significant, as the p-value is less than the threshold of 0.05.
 
 **Figure 2:** Regression Analysis: Volume vs. Volatility.  
-![Figure 2](assets/IMG/DowFinalProjectFigure2.png
+![Figure 2](assets/IMG/DowFinalProjectFigure2.png)
 ## Discussion  
 The analysis shows a moderate positive correlation between trading volume and volatility for the selected Dow Jones stocks. This finding aligns with financial theory, which suggests that increased trading activity often occurs during periods of heightened market uncertainty, leading to greater price fluctuations.
 
