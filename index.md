@@ -1,13 +1,13 @@
 # My Project  
-**Analyzing the Relationship Between Volume and Volatility in Selected Dow Jones Stocks**  
+**Forecasting the Dow Jones Industrial Average (DJIA) and Analyzing the Relationship Between Volume and Volatility**  
 
 ## Introduction  
-Stock market analysis often involves highly stochastic data, making accurate forecasting challenging. Instead of focusing solely on predictions, this project investigates the relationship between trading volume and volatility for selected Dow Jones stocks: `BAC`, `INTC`, `PG`, `GE`, `MMM`, `XOM`, `BA`, `IBM`, and `PFE`.  
+Stock market forecasting is a highly complex task due to the stochastic nature of financial data. This project aims to forecast the future values of the Dow Jones Industrial Average (DJIA) and, simultaneously, investigate the relationship between trading volume and volatility for selected stocks within the DJIA. Specifically, we focus on understanding how changes in trading volume correlate with price volatility for selected stocks.
 
-By normalizing stock price data as a percentage change and applying statistical methods, this study identifies whether a significant correlation exists between volume and volatility. Understanding this relationship could benefit traders and investors by providing insights into market behavior.  
+Rather than focusing solely on stock price predictions, this project explores whether there is a significant relationship between trading volume and volatility, normalized as a percentage change in daily closing prices. Understanding this relationship can provide insights into market behavior, helping investors make informed decisions.
 
 ## Data  
-The dataset used in this project is the Dow Jones Index data, which includes daily stock data for multiple companies.  
+The dataset used in this project includes historical daily closing prices of the Dow Jones Industrial Average (DJIA) along with trading volume data for several key stocks: `BAC`, `INTC`, `PG`, `GE`, `MMM`, `XOM`, `BA`, `IBM`, and `PFE`.  
 ### Data Overview:
 - **Features:**  
   - `date`: The trading date.  
@@ -16,30 +16,50 @@ The dataset used in this project is the Dow Jones Index data, which includes dai
   - `stock`: The ticker symbol for the stock.  
 
 ### Preprocessing Steps:  
-1. Converted `date` to datetime format for proper time-series handling.  
-2. Removed invalid or missing data entries for cleaner analysis.  
-3. Calculated the **percentage change** in daily closing prices to normalize stock price data.  
-4. Computed the **5-day rolling standard deviation** of percentage change to estimate volatility.  
-5. Filtered data to include only the selected stocks (`BAC`, `INTC`, `PG`, `GE`, `MMM`, `XOM`, `BA`, `IBM`, and `PFE`).  
+1. **Date Conversion**: Converted the `date` column to datetime format for proper time-series handling.  
+2. **Missing Data**: Removed invalid or missing data entries to ensure clean analysis.  
+3. **Normalization**: Calculated the **percentage change** in daily closing prices to normalize stock price data.  
+4. **Volatility Calculation**: Computed the **5-day rolling standard deviation** of percentage changes to estimate price volatility.  
+5. **Stock Selection**: Filtered the data to include only the selected stocks (`BAC`, `INTC`, `PG`, `GE`, `MMM`, `XOM`, `BA`, `IBM`, and `PFE`).  
 
 ### Visualization:  
 The scatter plot below shows the relationship between trading volume and volatility for the selected stocks.  
 
 **Figure 1:** Relationship Between Volume and Volatility (Selected Stocks).  
 
-![Figure 1](assets/IMG/DowFinalProjectFigure1.png)  
+![Figure 1](path_to_figure1.png)  
 
 ## Modelling  
-This project uses statistical correlation analysis to examine the relationship between trading volume and volatility.  
+This project uses a combination of statistical analysis and machine learning methods to explore the relationship between trading volume and volatility, and to forecast future values of the DJIA.
 
-- **Correlation Analysis:**  
-  Pearson correlation was used to quantify the strength and direction of the relationship.  
+### Time Series Forecasting:  
+We employed an **autoregressive (AR)** model to predict future values of the DJIA. The AR model captures the temporal dependencies in stock prices, helping to forecast future movements based on historical trends. Additionally, we considered machine learning techniques such as **Random Forests** for comparison.
 
-- **Regression Analysis:**  
-  A regression plot was generated to visualize the trend between volume and volatility.  
+### Correlation Analysis:  
+To investigate the relationship between trading volume and volatility, we performed **Pearson correlation analysis**. This method quantifies the strength and direction of the relationship between the two variables.
+
+### Regression Analysis:  
+A regression plot was generated to visualize the trend between volume and volatility. This helps to illustrate how changes in volume might influence price volatility.
 
 ### Code Example:  
+Below is a Python code snippet that demonstrates how we applied Pearson correlation to our dataset:
+
 ```python
-correlation, p_value = pearsonr(dow_data['volume'], dow_data['volatility'])
+import pandas as pd
+import numpy as np
+from scipy.stats import pearsonr
+import matplotlib.pyplot as plt
+
+# Load dataset
+dow_data = pd.read_csv('dow_jones_data.csv')
+
+# Calculate percentage change in closing price
+dow_data['pct_change'] = dow_data['close'].pct_change()
+
+# Calculate volatility (5-day rolling standard deviation)
+dow_data['volatility'] = dow_data['pct_change'].rolling(window=5).std()
+
+# Pearson correlation between volume and volatility
+correlation, p_value = pearsonr(dow_data['volume'].dropna(), dow_data['volatility'].dropna())
 print(f"Pearson Correlation Coefficient: {correlation:.3f}")
 print(f"P-value: {p_value:.3e}")
