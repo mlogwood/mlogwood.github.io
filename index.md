@@ -27,7 +27,7 @@ The scatter plot below shows the relationship between trading volume and volatil
 
 **Figure 1:** Relationship Between Volume and Volatility (Selected Stocks).  
 
-![Figure 1](path_to_figure1.png)  
+![Figure 1](assests/IMG/DowFinalProjectFigure1.png)  
 
 ## Modelling  
 This project uses statistical correlation analysis to examine the relationship between trading volume and volatility.  
