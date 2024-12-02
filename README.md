@@ -50,12 +50,16 @@ r = \frac{n \sum{xy} - \sum{x}\sum{y}}{\sqrt{(n \sum{x^2} - (\sum{x})^2)(n \sum{
 
 Where:
 - \(r\) is the Pearson correlation coefficient.
+- 
 - \(x\) and \(y\) are the two variables being compared (in this case, volume and volatility).
+- 
 - \(n\) is the number of data points.
 
 The Pearson correlation coefficient \(r\) ranges from -1 to 1:
 - A value close to 1 indicates a strong positive linear relationship.
+- 
 - A value close to -1 indicates a strong negative linear relationship.
+- 
 - A value near 0 suggests no linear relationship.
 
 
