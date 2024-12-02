@@ -1,3 +1,5 @@
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
 # Final Project  
 **Analyzing the Relationship Between Volume and Volatility in Selected Dow Jones Stocks**  
 
@@ -38,6 +40,8 @@ The scatter plot below shows the relationship between trading volume and volatil
 
 In this project, the relationship between trading volume and volatility was analyzed using **Pearson correlation analysis**. Pearson's correlation coefficient is a widely-used statistic to measure the strength and direction of the linear relationship between two continuous variables. The formula for Pearson's correlation is given by:
 
+<p>
+
  \[
 r = \frac{n \sum{xy} - \sum{x}\sum{y}}{\sqrt{(n \sum{x^2} - (\sum{x})^2)(n \sum{y^2} - (\sum{y})^2)}}
  \]
@@ -49,10 +53,12 @@ Where:
 - \(x\) and \(y\) are the two variables being compared (in this case, volume and volatility).
 - \(n\) is the number of data points.
 
-The Pearson correlation coefficient $r$ ranges from -1 to 1:
+The Pearson correlation coefficient \(r\) ranges from -1 to 1:
 - A value close to 1 indicates a strong positive linear relationship.
 - A value close to -1 indicates a strong negative linear relationship.
 - A value near 0 suggests no linear relationship.
+
+</p>
 
 A positive correlation between trading volume and volatility would suggest that as market activity increases (reflected in volume), the price fluctuations (volatility) tend to rise as well. A negative correlation would indicate that higher trading volumes correspond to lower volatility. In this analysis, a positive correlation is expected based on the general behavior of stock markets during periods of high uncertainty.
 
