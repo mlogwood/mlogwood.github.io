@@ -46,7 +46,7 @@ In this project, the relationship between trading volume and volatility was anal
 r = \frac{n \sum{xy} - \sum{x}\sum{y}}{\sqrt{(n \sum{x^2} - (\sum{x})^2)(n \sum{y^2} - (\sum{y})^2)}}
  \]
 
-
+</p>
 
 Where:
 - \(r\) is the Pearson correlation coefficient.
@@ -58,7 +58,7 @@ The Pearson correlation coefficient \(r\) ranges from -1 to 1:
 - A value close to -1 indicates a strong negative linear relationship.
 - A value near 0 suggests no linear relationship.
 
-</p>
+
 
 A positive correlation between trading volume and volatility would suggest that as market activity increases (reflected in volume), the price fluctuations (volatility) tend to rise as well. A negative correlation would indicate that higher trading volumes correspond to lower volatility. In this analysis, a positive correlation is expected based on the general behavior of stock markets during periods of high uncertainty.
 
