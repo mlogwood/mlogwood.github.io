@@ -53,10 +53,10 @@ Where:
 - <p>\(x\) and \(y\) are the two variables being compared (in this case, volume and volatility).</p>
 - <p>\(n\) is the number of data points.</p>
 
-The Pearson correlation coefficient \(r\) ranges from -1 to 1:
-- A value close to 1 indicates a strong positive linear relationship.
-- A value close to -1 indicates a strong negative linear relationship.
-- A value near 0 suggests no linear relationship.
+ <p>The Pearson correlation coefficient \(r\) ranges from -1 to 1:</p>
+-  <p>A value close to 1 indicates a strong positive linear relationship.</p>
+-  <p>A value close to -1 indicates a strong negative linear relationship.</p>
+-  <p>A value near 0 suggests no linear relationship.</p>
 
 
 
